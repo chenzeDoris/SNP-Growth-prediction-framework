@@ -12,21 +12,9 @@ import sys
 import time
 # This runner file is using to reproduce the results of the paper
 # nohup python -u runner.py 0 False False > runner0.out 2>&1 &
-# CUDA_VISIBLE_DEVICES=0 nohup python -u runner.py >runner.out 2>&1 &
-# CUDA_VISIBLE_DEVICES=0 python runner.py
-# results['Chi2']['split_index'].keys() get the RandomState = , 'Train_x' = [], 'Test_x' = [], 'Train_y', 'Test_y'
-# write a quick run, have the information of the Train,test split. 
-# for server in cuda0 cuda1 cuda2 cuda3 cuda4 cuda5 cuda6 cuda7 cuda8 cuda9 cuda10 cuda11 cuda12 cuda13 cuda14 cuda15 cuda16 gryphon red-tomatoes piccolo the-villa bordeaux
-# do
-# printf "------------%s------------\n" $server
-# ssh $server 'nvidia-smi --query-gpu=memory.used --format=csv,noheader'
 # done
 class ExperimentRunner:
     def __init__(self, data_path,location_path,seed = 1):
-        # '/home/chenze/Desktop/Code/RawRUN/Redata_withMissing.csv'
-        # '/home/chenze/Desktop/Code/Snapper_SNP_locations.xlsx'
-        # pd.read_csv('/home/chenze/Desktop/Code/RawRUN/snpchip_snps_SNAv2.csv')
-        # '/home/chenze/Desktop/Code/Snapper_SNP_locations.xlsx'
         self.data_path = data_path
         self.location_path = location_path
         self.data = None
@@ -55,12 +43,6 @@ class ExperimentRunner:
             'LR': LogisticRegression(random_state=self.seed),
             'RF': RandomForestClassifier(random_state=self.seed),
             'NB': GaussianNB(), 
-            # 'LR': LogisticRegression(),
-            # 'SVM': SVC(kernel='rbf', probability=True),
-            # 'DWD': DWD(),
-            # 'RF': RandomForestClassifier(),
-            # 'NB': GaussianNB(),
-            # "GP": GPBaseModel(),
            
         }
 
@@ -79,10 +61,10 @@ class ExperimentRunner:
 
         return {
             'raw': 0,
-            'Chi2':3500,#4000
-            'CMIM':600, # 1000 
-            'MI':700,#1200
-            'Relief':1200,#1000
+            'Chi2':400,#4000
+            'CMIM':1000, # 1000 
+            'MI':1200,#1200
+            'Relief':1000,#1000
         }
 
     def load_data(self):
@@ -139,25 +121,10 @@ class ExperimentRunner:
         except Exception as e: 
             print(f"Error saving results: {str(e)}")
 
-    def run_interactive(self, random_state=42, dmfs=False, do_ga=False, methods=['Chi2'], export_data=False,name_s =''):
-        print(f"Starting experiment with parameters:")
-        print(f"Random State: {random_state}")
-        print(f"DMFS: {dmfs}")
-        print(f"GA: {do_ga}")
-        print(f"Methods: {methods}")
-        return self.run_experiments(random_state, dmfs, do_ga, methods, export_data,name_s)
-
-    def quick_run(self, method='Chi2', export_data=False,random_state=42,name_s = None):
-        return self.run_interactive(methods=[method], export_data=export_data,random_state=random_state,name_s = name_s)
-
-    def run_all(self):
-        methods = ['raw', 'Chi2', 'CMIM', 'MI', 'Relief', 'Relieff']
-        return self.run_interactive(methods=methods)
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("RandomState", type=int, help="Random state for reproducibility")
-    parser.add_argument("DMFS", type=ExperimentRunner.str2bool, help="Whether to use DMFS")
+    parser.add_argument("DMFS", type=ExperimentRunner.str2bool, help="Whether to use DK pre-filtering")
     parser.add_argument("doGA", type=ExperimentRunner.str2bool, help="Whether to use GA")
     parser.add_argument("--methods", nargs='+', 
                        default=['raw','Chi2','MI'],
@@ -192,14 +159,6 @@ def quick_run(method='Chi2', export_data=False):
     runner = ExperimentRunner()
     return runner.quick_run(method=method, export_data=export_data),runner.metrics_classifiers.keys()
 
-def quick_run_regression(export_data=False, name_s='regression_test'):
-    """Quick function to run regression analysis"""
-    runner = ExperimentRunner()
-    return runner.run_regression(
-        methods=['raw'], 
-        export_data=export_data, 
-        name_s=name_s
-    ), runner.metrics_regressors.keys()
 
 def run_all(export_data=False):
     runner = ExperimentRunner()

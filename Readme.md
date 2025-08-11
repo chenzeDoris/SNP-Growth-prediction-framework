@@ -22,7 +22,13 @@ The position data provides genomic location information for each SNP.
 - `Chromosome` or `Scaffold`: The chromosome or scaffold identifier
 - `Position`: Genomic position (integer)
 - `Name`: SNP identifier/name
-
+**Example Data**
+```csv
+Chromosome,Position,Name
+chr1,1234567,rs001
+chr1,2345678,rs002
+chr2,3456789,rs003
+```
 ### 2. Genotype Data
 The genotype data contains the actual SNP information and classification.
 
@@ -30,6 +36,67 @@ The genotype data contains the actual SNP information and classification.
 - `Class`: The dependent variable (Y) for analysis - Binary labels only
 - `SNP_*`: Individual SNP columns representing independent variables (X)
 
-## Expected Data Format
+**Example Data**
+```csv
+Class,SNP_001,SNP_002,SNP_003
+FAST,0,1,2
+FAST,1,0,2
+SLOW,2,1,0
+```
+### 
 
-### Column Structure
+# Machine Learning Experiment Runner - Usage Instructions
+
+## Overview
+
+This Python script (`runner.py`) is a comprehensive machine learning pipeline designed for genotype/SNP data analysis. It supports multiple classification algorithms, feature selection methods, and experimental configurations for genomic association studies.
+
+## Key Features
+
+- **Multiple ML Algorithms**: SVM, Random Forest, Logistic Regression, Naive Bayes, DWD
+- **Feature Selection**: Chi2, CMIM, MI, Relief methods
+- **DMFS Integration**: DK Pre-filtering
+- **Cross-validation**: Built-in train/test splitting with reproducible results
+
+
+### 1. Command Line Interface
+
+```bash
+# Basic syntax
+python runner.py <RandomState> <DMFS> <doGA> [--methods METHOD1 METHOD2 ...]
+
+# Examples
+python runner.py 123 False False --methods Chi2
+python runner.py 42 True False --methods raw Chi2 CMIM MI Relief
+```
+
+
+## Parameters Explanation
+
+### Command Line Arguments
+
+| Parameter | Type | Description | Options |
+|-----------|------|-------------|---------|
+| `RandomState` | int | Random seed for reproducibility | Any integer (e.g., 42, 123) |
+| `DMFS` | bool | Enable DK pre-filtering | True/False |
+| `doGA` | bool | Enable Genetic Algorithm optimization | True/False |
+| `--methods` | list | Feature selection methods to run | raw, Chi2, CMIM, MI, Relief |
+
+### Feature Selection Methods
+
+- **raw**: No feature selection (use all SNPs)
+- **Chi2**: Chi-square test for feature selection
+- **CMIM**: Conditional Mutual Information Maximization
+- **MI**: Mutual Information
+- **Relief**: Relief-based feature selection
+
+### Default Feature Sizes
+```python
+fs_params = {
+    'raw': 0,        # All features
+    'Chi2': 4000,    # Top 3500 features
+    'CMIM': 100,     # Top 600 features  
+    'MI': 1200,       # Top 700 features
+    'Relief': 1000,  # Top 1200 features
+}
+```
