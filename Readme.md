@@ -94,9 +94,9 @@ python runner.py 42 True False --methods raw Chi2 CMIM MI Relief
 ```python
 fs_params = {
     'raw': 0,        # All features
-    'Chi2': 4000,    # Top 3500 features
-    'CMIM': 100,     # Top 600 features  
-    'MI': 1200,       # Top 700 features
-    'Relief': 1000,  # Top 1200 features
+    'Chi2': 4000,    
+    'CMIM': 1000,    
+    'MI': 1200,      
+    'Relief': 1000,  
 }
 ```
