@@ -4,7 +4,7 @@ import argparse
 # from Scaffold import HandleScaffold
 from CheckLG import checkLG
 import pandas as pd
-from run_allele_frequency import run_code_sss, run_Sss_RF, run_sss_with_total
+from run_allele_frequency import run_sss_with_total
 from Handle_Missing_Dom import HandleMissingData
 from sklearn.impute import KNNImputer
 

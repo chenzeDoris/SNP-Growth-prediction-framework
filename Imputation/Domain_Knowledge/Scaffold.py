@@ -3,8 +3,6 @@ import CheckLG
 import pandas as pd
 from sklearn.impute import KNNImputer
 from abc import ABC, abstractmethod
-from typing import List, Tuple,Optional
-import sys
 
 # test
 class FeatureSelectionStrategy(ABC):

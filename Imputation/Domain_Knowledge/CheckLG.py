@@ -1,4 +1,4 @@
-from yellowbrick.cluster import KElbowVisualizer
+
 from sklearn.cluster import KMeans
 from sklearn.cluster import DBSCAN
 import matplotlib.pyplot as plt
@@ -32,34 +32,34 @@ class checkLG():
         snapper_LG = self.data.loc[:, valid_indices]
         return snapper_LG
 
-    # silhouette,calinski_harabasz
-    def run_elbow(self, kmeans, metirc='distortion'):
-        data = self.LG.Position.values.reshape(-1, 1)
-        # Chromosomes come in different lengths, so make them dynamic
-        min = int(len(data)/6)
-        max = int(len(data)/2)
-        print("the range of the K : ({},{})".format(min, max))
-        visualizer = KElbowVisualizer(kmeans, k=(min, max), metric=metirc)
-        visualizer.fit(data)
-        visualizer.show()
-        visualizer1 = KElbowVisualizer(kmeans, k=(
-            min, max), metric='silhouette',  locate_elbow=False)
-        visualizer1.fit(data)
-        scores = visualizer1.k_scores_
-        best_k_index = np.argmax(scores)
-        best_k = visualizer1.k_values_[best_k_index]
-        best_score = scores[best_k_index]
-        print(f"Length: {len(data)}")
-        print(f"Best K: {best_k}")
-        ratio = len(data)/best_k
-        print(f"Highest Score: {best_score}")
-        print(f"There can probably be {ratio} genes in each clusters ")
-        visualizer1.show()
-        visualizer2 = KElbowVisualizer(kmeans, k=(
-            min, max), metric='calinski_harabasz', locate_elbow=False)
-        visualizer2.fit(data)
-        visualizer2.show()
-        return visualizer.elbow_value_, best_k, visualizer2.elbow_value_
+    # # silhouette,calinski_harabasz
+    # def run_elbow(self, kmeans, metirc='distortion'):
+    #     data = self.LG.Position.values.reshape(-1, 1)
+    #     # Chromosomes come in different lengths, so make them dynamic
+    #     min = int(len(data)/6)
+    #     max = int(len(data)/2)
+    #     print("the range of the K : ({},{})".format(min, max))
+    #     visualizer = KElbowVisualizer(kmeans, k=(min, max), metric=metirc)
+    #     visualizer.fit(data)
+    #     visualizer.show()
+    #     visualizer1 = KElbowVisualizer(kmeans, k=(
+    #         min, max), metric='silhouette',  locate_elbow=False)
+    #     visualizer1.fit(data)
+    #     scores = visualizer1.k_scores_
+    #     best_k_index = np.argmax(scores)
+    #     best_k = visualizer1.k_values_[best_k_index]
+    #     best_score = scores[best_k_index]
+    #     print(f"Length: {len(data)}")
+    #     print(f"Best K: {best_k}")
+    #     ratio = len(data)/best_k
+    #     print(f"Highest Score: {best_score}")
+    #     print(f"There can probably be {ratio} genes in each clusters ")
+    #     visualizer1.show()
+    #     visualizer2 = KElbowVisualizer(kmeans, k=(
+    #         min, max), metric='calinski_harabasz', locate_elbow=False)
+    #     visualizer2.fit(data)
+    #     visualizer2.show()
+    #     return visualizer.elbow_value_, best_k, visualizer2.elbow_value_
 
     def run_Kmeans(self, best_K):
         kmeans = KMeans(n_clusters=best_K)

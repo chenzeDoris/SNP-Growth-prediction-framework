@@ -1,16 +1,6 @@
 import pandas as pd
-import seaborn as sns
 import numpy as np
-import matplotlib.pyplot as plt
-import CheckLG
 from Scaffold import HandleScaffold
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, confusion_matrix
-from sklearn.naive_bayes import CategoricalNB, GaussianNB
-from sklearn.model_selection import cross_val_score, cross_validate
-from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.impute import KNNImputer
 
 # all the print. 
