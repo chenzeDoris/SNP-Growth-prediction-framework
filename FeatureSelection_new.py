@@ -500,14 +500,6 @@ class FeatureSelection:
         
         return results
 
-# Usage example for single method:
-# results = self.analyze_feature_importance_with_elbows(
-#     X, y, 
-#     method='chi2',  # Single method
-#     outdir='./FS_Dis/',
-#     plot_distributions=True,
-#     detect_elbows=True
-# )
 
     def set_evaluation_function(self, eval_function = 'AccuracyEvaluation'):
         if eval_function == 'AccuracyEvaluation':
@@ -748,23 +740,3 @@ class FeatureSelection:
         re_scores = 0
         return Re_train, Re_test, selected_columns,re_scores
    
-# Example usage:
-# from sklearn.svm import SVC
-# from sklearn.datasets import load_iris
-# 
-# iris = load_iris()
-# X = pd.DataFrame(iris.data, columns=iris.feature_names)
-# y = pd.Series(iris.target)
-# 
-# estimator = SVC()
-# eval_function = AccuracyEvaluation(estimator)
-# fs = FeatureSelection(estimator, eval_function)
-# 
-# ga_features = fs.genetic_algorithm(X, y)
-# print("GA selected features:", ga_features)
-# print("Best score:", fs.best_score)
-# 
-# X_transformed = fs.transform(X)
-# print("Transformed X shape:", X_transformed.shape)
-
-
